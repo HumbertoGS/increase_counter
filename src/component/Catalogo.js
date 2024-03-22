@@ -1,24 +1,26 @@
-import { useEffect, useState, useContext } from "react";
+import { useContext, useMemo } from "react";
 import { ShopContext } from "../context/shopContext";
 
-const Catalogo = () => {
-  const [products, setProducts] = useState(null);
-
+const Catalogo = ({ products, optionSelected }) => {
   const { increment } = useContext(ShopContext);
 
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((json) => setProducts(json));
-  }, []);
-
   const incrementCounter = () => increment();
+
+  const filterTodos = (products, optionSelected) => {
+    if (optionSelected === "todos") return products ?? [];
+    return products?.filter((item) => item?.category === optionSelected);
+  };
+
+  const filterProducts = useMemo(
+    () => filterTodos(products, optionSelected),
+    [products, optionSelected]
+  );
 
   return (
     <>
       <div className="content">
-        {products &&
-          products.map((item) => {
+        {filterProducts &&
+          filterProducts?.map((item) => {
             return (
               <div key={item?.id} className="content-product">
                 <div className="content-product-img">

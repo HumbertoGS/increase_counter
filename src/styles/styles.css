@@ -23,6 +23,13 @@
   padding-right: 40px;
 }
 
+.filter-content {
+  padding-top: 20px;
+  justify-content: center;
+  display: flex;
+  gap: 20px;
+}
+
 .content {
   display: flex;
   justify-content: space-around;
